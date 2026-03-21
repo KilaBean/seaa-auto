@@ -13,7 +13,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// ── Update this when your domain is confirmed ─────────────────────────────
 const SITE_URL = "https://seaaauto.com";
 
 export const viewport: Viewport = {
@@ -102,6 +101,16 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+
+  // ── STEP: Paste your Google Search Console verification code below ────────
+  // 1. Go to search.google.com/search-console
+  // 2. Add property → URL Prefix → https://seaaauto.com
+  // 3. Choose HTML tag verification → copy the content="..." value
+  // 4. Replace YOUR_GOOGLE_VERIFICATION_CODE below with that value
+  // 5. Push to GitHub, then click Verify in Search Console
+  verification: {
+    google: "ZmGLlgzhi2Uds6wqykqR6t-0OI9yX7VEIHcZlt0PkDM",
+  },
 };
 
 const structuredData = {
@@ -111,19 +120,20 @@ const structuredData = {
   description:
     "Professional auto care services including Washing Bay, Wheel Balancing & Alignment, Vulcanizing, Air Condition Services, and Auto Diagnostics in Ghana.",
   url: SITE_URL,
-  logo: `${SITE_URL}/favicon.svg`,
+  logo: `${SITE_URL}/favicon.png`,
   image: `${SITE_URL}/og-image.svg`,
+  // ── Replace these with real business details ──────────────────────────────
   telephone: "+233XXXXXXXXX",
   email: "info@seaaauto.com",
   address: {
     "@type": "PostalAddress",
     addressCountry: "GH",
-    addressLocality: "Ghana",
-    streetAddress: "",
+    addressLocality: "Ghana",   // e.g. "Accra"
+    streetAddress: "",          // e.g. "123 Main Street, Tema"
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: "4.967075",
+    latitude: "4.967075",      // get exact values from Google Maps
     longitude: "-4.080509",
   },
   openingHoursSpecification: [
@@ -171,6 +181,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* JSON-LD Structured Data — powers Google Knowledge Panel */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
