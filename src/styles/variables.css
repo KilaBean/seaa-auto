@@ -1,0 +1,58 @@
+/* src/styles/variables.css */
+:root {
+  /* SEAA Auto Brand Colors */
+  --seaa-blue: #0D2B5B;
+  --seaa-blue-light: #1E3A8A;
+  --seaa-yellow: #F4B400;
+  --seaa-yellow-light: #FFC107;
+  --seaa-red: #E53935;
+  
+  /* Light Mode Theme */
+  --background: #FFFFFF;
+  --foreground: #0D2B5B;
+  
+  --card: #FFFFFF;
+  --card-foreground: #0D2B5B;
+  
+  --popover: #FFFFFF;
+  --popover-foreground: #0D2B5B;
+  
+  --primary: #F4B400;
+  --primary-foreground: #0D2B5B;
+  
+  --secondary: #F5F5F5;
+  --secondary-foreground: #0D2B5B;
+  
+  --muted: #F5F5F5;
+  --muted-foreground: #6B7280;
+  
+  --accent: #E53935;
+  --accent-foreground: #FFFFFF;
+  
+  --destructive: #E53935;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #F4B400;
+  
+  --radius: 0.625rem;
+}
+
+/* Dark mode preferences */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0D2B5B;
+    --foreground: #FFFFFF;
+    --card: #1E3A8A;
+    --card-foreground: #FFFFFF;
+    --popover: #1E3A8A;
+    --popover-foreground: #FFFFFF;
+    --secondary: #1E3A8A;
+    --secondary-foreground: #FFFFFF;
+    --muted: #1E3A8A;
+    --muted-foreground: #9CA3AF;
+    --border: #1E3A8A;
+    --input: #1E3A8A;
+  }
+}
