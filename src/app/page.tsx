@@ -130,7 +130,7 @@ function HeroSection() {
     <section className="hero">
       <div className="hero-bg">
         <Image 
-          src="/images/hero-bg.png" 
+          src="/images/hero-bg.jpg" 
           alt="SEAA Auto Services Workshop"
           fill
           priority
@@ -200,7 +200,7 @@ function ServicesSection() {
       description: 'Professional car washing services to keep your vehicle clean and shiny. From basic wash to full detailing.',
       features: ['Exterior Wash', 'Interior Cleaning', 'Engine Wash', 'Full Detailing'],
       price: 'From GHS 50',
-      image: '/images/washing-bay.png',
+      image: '/images/washing-bay.jpg',
     },
     {
       icon: Wrench,
@@ -208,7 +208,7 @@ function ServicesSection() {
       description: 'Precision wheel balancing and alignment using advanced equipment for smooth and safe driving.',
       features: ['Wheel Balancing', 'Computerized Alignment', 'Suspension Check', 'Steering Adjustment'],
       price: 'From GHS 150',
-      image: '/images/alignment-balancing.png',
+      image: '/images/alignment-balancing.jpg',
     },
     {
       icon: CircleDot,
@@ -216,7 +216,7 @@ function ServicesSection() {
       description: 'Expert tire repair and patching services. We fix punctures, tears, and other tire damages quickly.',
       features: ['Tire Punctures Repair', 'Tire Patching', 'Tire Replacement', 'Tube Repair'],
       price: 'From GHS 20',
-      image: '/images/vulcanizing.png',
+      image: '/images/vulcanizing.jpg',
     },
     {
       icon: Snowflake,
@@ -224,7 +224,7 @@ function ServicesSection() {
       description: 'Complete AC services including diagnostics, repair, and recharging to keep you cool on the road.',
       features: ['AC Diagnostics', 'AC Repair', 'Gas Recharge', 'AC Component Replacement'],
       price: 'From GHS 100',
-      image: '/images/ac-service.png',
+      image: '/images/ac-service.jpg',
     },
     {
       icon: Activity,
@@ -232,7 +232,7 @@ function ServicesSection() {
       description: 'Advanced computerized diagnostics to identify and resolve vehicle issues accurately.',
       features: ['Engine Diagnostics', 'Check Engine Light', 'Electrical Systems', 'Performance Analysis'],
       price: 'From GHS 80',
-      image: '/images/auto-diagnosis.png',
+      image: '/images/auto-diagnosis.jpg',
     },
   ]
 
@@ -557,37 +557,37 @@ function PricingCalculatorSection() {
 function GallerySection() {
   const galleryItems = [
     {
-      image: '/images/washing-bay.png',
+      image: '/images/washing-bay.jpg',
       title: 'Professional Car Washing',
       category: 'Washing Bay',
       description: 'Premium washing and detailing services',
     },
     {
-      image: '/images/alignment-balancing.png',
+      image: '/images/alignment-balancing.jpg',
       title: 'Wheel Alignment & Balancing',
       category: 'Balancing & Alignment',
       description: 'State-of-the-art alignment equipment',
     },
     {
-      image: '/images/vulcanizing.png',
+      image: '/images/vulcanizing.jpg',
       title: 'Tire Vulcanizing Service',
       category: 'Vulcanizing',
       description: 'Expert tire repair and patching',
     },
     {
-      image: '/images/ac-service.png',
+      image: '/images/ac-service.jpg',
       title: 'Air Condition Service',
       category: 'AC Services',
       description: 'Professional AC diagnostics and repair',
     },
     {
-      image: '/images/auto-diagnosis.png',
+      image: '/images/auto-diagnosis.jpg',
       title: 'Auto Diagnostics',
       category: 'Auto Diagnosis',
       description: 'Advanced computerized vehicle diagnostics',
     },
     {
-      image: '/images/gallery/before-after-detail.png',
+      image: '/images/gallery/before-after-detail.jpg',
       title: 'Detailing Transformation',
       category: 'Washing Bay',
       description: 'Before & after detailing results',
@@ -819,7 +819,7 @@ function AboutSection() {
           <div>
             <div className="relative mb-6" style={{ borderRadius: '1rem', overflow: 'hidden', aspectRatio: '16/9' }}>
               <Image 
-                src="/images/team.png" 
+                src="/images/team.jpg" 
                 alt="SEAA Auto Services Team"
                 fill
                 className="object-cover"

@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     // run them through Sharp (which would fail on SVG content).
     // ⚠️  When you replace placeholders with real photos, set this to false
     // to re-enable Vercel's image optimisation pipeline.
-    unoptimized: true,
+    unoptimized: false,
   },
   // Compress output
   compress: true,
