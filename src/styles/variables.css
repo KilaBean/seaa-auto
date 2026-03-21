@@ -39,20 +39,5 @@
   --radius: 0.625rem;
 }
 
-/* Dark mode preferences */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0D2B5B;
-    --foreground: #FFFFFF;
-    --card: #1E3A8A;
-    --card-foreground: #FFFFFF;
-    --popover: #1E3A8A;
-    --popover-foreground: #FFFFFF;
-    --secondary: #1E3A8A;
-    --secondary-foreground: #FFFFFF;
-    --muted: #1E3A8A;
-    --muted-foreground: #9CA3AF;
-    --border: #1E3A8A;
-    --input: #1E3A8A;
-  }
-}
+/* Dark mode intentionally disabled — site is locked to light mode only.
+   The phone/OS dark mode setting will not affect this site. */

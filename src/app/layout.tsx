@@ -18,6 +18,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   themeColor: "#0D2B5B",
+  // Lock to light mode — prevents OS dark mode from affecting the site
+  colorScheme: "light",
 };
 
 export const metadata: Metadata = {
