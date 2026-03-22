@@ -2,7 +2,19 @@
 'use client'
 
 import { useState } from 'react'
-import { MapPin, Phone, Mail, Clock, ExternalLink, CheckCircle2, ArrowRight } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, ExternalLink, CheckCircle2, XCircle, ArrowRight, Send } from 'lucide-react'
+
+// ─── EmailJS config ────────────────────────────────────────────────────────
+// 1. Sign up free at https://emailjs.com
+// 2. Add a service (Gmail) → copy the Service ID
+// 3. Create an email template → copy the Template ID
+//    Template variables used: {{from_name}}, {{from_email}}, {{phone}}, {{service}}, {{message}}
+// 4. Copy your Public Key from Account → API Keys
+// 5. Replace the three values below
+const EMAILJS_SERVICE_ID  = 'service_ctyj2x1'
+const EMAILJS_TEMPLATE_ID = 'template_vqw4xgb'
+const EMAILJS_PUBLIC_KEY  = 'wL5DdVqJx1lhksUFu'
+// ───────────────────────────────────────────────────────────────────────────
 
 const serviceOptions = [
   'Washing Bay',
@@ -23,32 +35,45 @@ interface FormData {
 
 const emptyForm: FormData = { name: '', email: '', phone: '', service: '', message: '' }
 
+type Status = 'idle' | 'submitting' | 'success' | 'error'
+
 export default function ContactSection() {
   const [formData, setFormData] = useState<FormData>(emptyForm)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [status, setStatus] = useState<Status>('idle')
+
+  const update = (field: keyof FormData) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+      setFormData((prev) => ({ ...prev, [field]: e.target.value }))
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
+    setStatus('submitting')
 
-    const subject = encodeURIComponent(`Service Request: ${formData.service || 'General Enquiry'}`)
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\n` +
-      `Phone: ${formData.phone}\n` +
-      `Email: ${formData.email}\n` +
-      `Service: ${formData.service}\n\n` +
-      `Message:\n${formData.message || 'No additional message.'}`
-    )
+    try {
+      // Dynamically import emailjs to keep bundle lean
+      const emailjs = (await import('@emailjs/browser')).default
 
-    window.location.href = `mailto:Jeffkofi0@gmail.com?subject=${subject}&body=${body}`
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone:      formData.phone,
+          service:    formData.service,
+          message:    formData.message || 'No additional message.',
+          to_email:   'Jeffkofi0@gmail.com',
+        },
+        EMAILJS_PUBLIC_KEY
+      )
 
-    // Brief delay so user sees the sending state, then show success
-    await new Promise((resolve) => setTimeout(resolve, 800))
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    setFormData(emptyForm)
-    setTimeout(() => setIsSubmitted(false), 5000)
+      setStatus('success')
+      setFormData(emptyForm)
+      setTimeout(() => setStatus('idle'), 6000)
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 6000)
+    }
   }
 
   return (
@@ -63,86 +88,91 @@ export default function ContactSection() {
         </div>
 
         <div className="contact-grid">
-          {/* Quote Form */}
+
+          {/* ── Quote Form ────────────────────────────────────────────────── */}
           <div className="card reveal-on-scroll">
             <div className="card-header">
               <h3 className="card-title">Request a Quote</h3>
               <p className="card-description">
-                Fill out the form below and we&apos;ll get back to you within 24 hours.
+                Fill out the form and we&apos;ll get back to you within 24 hours.
               </p>
             </div>
+
             <div className="card-content">
-              {isSubmitted ? (
-                <div className="text-center py-8">
-                  <div style={{
-                    width: '4rem', height: '4rem', borderRadius: '9999px',
-                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    margin: '0 auto 1rem',
-                  }}>
-                    <CheckCircle2 size={32} style={{ color: '#22c55e' }} />
+
+              {/* Success state */}
+              {status === 'success' && (
+                <div className="form-feedback form-feedback--success">
+                  <div className="form-feedback__icon">
+                    <CheckCircle2 size={32} />
                   </div>
-                  <h3 className="card-title" style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>
-                    Thank You!
-                  </h3>
-                  <p style={{ color: 'var(--muted-foreground)' }}>
-                    Your message has been received. We&apos;ll contact you shortly.
+                  <h3 className="form-feedback__title">Message Sent!</h3>
+                  <p className="form-feedback__body">
+                    Thank you! We&apos;ve received your request and will contact you shortly.
                   </p>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              )}
 
-                  {/* Name + Phone row */}
-                  <div className="form-name-phone-grid">
+              {/* Error state */}
+              {status === 'error' && (
+                <div className="form-feedback form-feedback--error">
+                  <div className="form-feedback__icon">
+                    <XCircle size={32} />
+                  </div>
+                  <h3 className="form-feedback__title">Something went wrong</h3>
+                  <p className="form-feedback__body">
+                    We couldn&apos;t send your message. Please call us directly at{' '}
+                    <a href="tel:+233246020823" style={{ color: 'var(--seaa-yellow)', fontWeight: 600 }}>
+                      +233 24 602 0823
+                    </a>.
+                  </p>
+                  <button className="btn btn-outline" style={{ marginTop: '1rem' }}
+                    onClick={() => setStatus('idle')}>
+                    Try Again
+                  </button>
+                </div>
+              )}
+
+              {/* Form — hidden while showing feedback */}
+              {(status === 'idle' || status === 'submitting') && (
+                <form onSubmit={handleSubmit} className="contact-form">
+
+                  {/* Name + Phone */}
+                  <div className="form-row">
                     <div className="form-group">
-                      <label htmlFor="contact-name" className="form-label">Full Name</label>
+                      <label htmlFor="c-name" className="form-label">Full Name</label>
                       <input
-                        id="contact-name"
-                        type="text"
-                        className="form-input"
+                        id="c-name" type="text" className="form-input"
                         placeholder="John Doe"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        required
+                        value={formData.name} onChange={update('name')} required
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="contact-phone" className="form-label">Phone</label>
+                      <label htmlFor="c-phone" className="form-label">Phone</label>
                       <input
-                        id="contact-phone"
-                        type="tel"
-                        className="form-input"
+                        id="c-phone" type="tel" className="form-input"
                         placeholder="+233 XX XXX XXXX"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        required
+                        value={formData.phone} onChange={update('phone')} required
                       />
                     </div>
                   </div>
 
                   {/* Email */}
                   <div className="form-group">
-                    <label htmlFor="contact-email" className="form-label">Email</label>
+                    <label htmlFor="c-email" className="form-label">Email</label>
                     <input
-                      id="contact-email"
-                      type="email"
-                      className="form-input"
+                      id="c-email" type="email" className="form-input"
                       placeholder="john@example.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      required
+                      value={formData.email} onChange={update('email')} required
                     />
                   </div>
 
-                  {/* Service — value driven by React state, pre-fills correctly */}
+                  {/* Service */}
                   <div className="form-group">
-                    <label htmlFor="contact-service" className="form-label">Service Needed</label>
+                    <label htmlFor="c-service" className="form-label">Service Needed</label>
                     <select
-                      id="contact-service"
-                      className="form-select"
-                      value={formData.service}
-                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      required
+                      id="c-service" className="form-select"
+                      value={formData.service} onChange={update('service')} required
                     >
                       <option value="">Select a service...</option>
                       {serviceOptions.map((s) => (
@@ -153,30 +183,32 @@ export default function ContactSection() {
 
                   {/* Message */}
                   <div className="form-group">
-                    <label htmlFor="contact-message" className="form-label">Message (Optional)</label>
+                    <label htmlFor="c-message" className="form-label">
+                      Message <span style={{ color: 'var(--muted-foreground)', fontWeight: 400 }}>(Optional)</span>
+                    </label>
                     <textarea
-                      id="contact-message"
-                      className="form-textarea"
+                      id="c-message" className="form-textarea" rows={4}
                       placeholder="Tell us more about your vehicle and what you need..."
-                      rows={4}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      value={formData.message} onChange={update('message')}
                     />
                   </div>
 
-                  <button type="submit" className="btn btn-primary w-full" disabled={isSubmitting}>
-                    {isSubmitting ? (
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    style={{ width: '100%' }}
+                    disabled={status === 'submitting'}
+                  >
+                    {status === 'submitting' ? (
                       <>
-                        <div className="animate-spin" style={{
-                          width: '1rem', height: '1rem',
-                          border: '2px solid var(--seaa-blue)',
-                          borderTopColor: 'transparent',
-                          borderRadius: '9999px',
-                        }} />
+                        <div className="btn-spinner" />
                         Sending...
                       </>
                     ) : (
-                      <>Send Request <ArrowRight size={16} /></>
+                      <>
+                        <Send size={16} />
+                        Send Message
+                      </>
                     )}
                   </button>
                 </form>
@@ -184,15 +216,13 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Map + Contact Info */}
+          {/* ── Map + Contact Info ────────────────────────────────────────── */}
           <div className="feature-list reveal-on-scroll" style={{ gap: '1.5rem' }}>
             <div className="card overflow-hidden">
               <div className="map-container">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2035115.5313229924!2d-4.080509806250005!3d4.967075799999991!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfe7796559c868a7%3A0x56689ee11454677c!2sSEAA%20Auto%20Service%20Center!5e0!3m2!1sen!2sgh!4v1773781305518!5m2!1sen!2sgh"
-                  className="map-iframe"
-                  allowFullScreen
-                  loading="lazy"
+                  className="map-iframe" allowFullScreen loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               </div>
@@ -227,7 +257,7 @@ export default function ContactSection() {
                 <div className="contact-info-icon"><Mail /></div>
                 <div>
                   <h3 className="contact-info-title">Email</h3>
-                  <p className="contact-info-text">info@seaaauto.com</p>
+                  <p className="contact-info-text">Jeffkofi0@gmail.com</p>
                 </div>
               </div>
               <div className="contact-info-card">
