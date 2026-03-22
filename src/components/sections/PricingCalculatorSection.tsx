@@ -12,42 +12,42 @@ interface VehicleType { id: string; label: string; multiplier: number }
 interface ServiceOption { id: string; label: string; basePrice: number; icon: ElementType; contactLabel: string }
 
 const vehicleTypes: VehicleType[] = [
-  { id: 'sedan',   label: 'Sedan',          multiplier: 1.0 },
-  { id: 'suv',     label: 'SUV / Crossover', multiplier: 1.2 },
-  { id: 'truck',   label: 'Truck / Van',     multiplier: 1.3 },
-  { id: 'luxury',  label: 'Luxury / Sports', multiplier: 1.5 },
+  { id: 'sedan',   label: 'Sedan',           multiplier: 1.0 },
+  { id: 'suv',     label: 'SUV / Crossover',  multiplier: 1.2 },
+  { id: 'truck',   label: 'Truck / Van',      multiplier: 1.3 },
+  { id: 'luxury',  label: 'Luxury / Sports',  multiplier: 1.5 },
 ]
 
 const serviceOptions: ServiceOption[] = [
-  { id: 'basic-wash',   label: 'Basic Car Wash',          basePrice: 50,  icon: Droplets,  contactLabel: 'Washing Bay' },
-  { id: 'full-detail',  label: 'Full Detailing',           basePrice: 200, icon: Droplets,  contactLabel: 'Washing Bay' },
-  { id: 'engine-wash',  label: 'Engine Wash',              basePrice: 80,  icon: Droplets,  contactLabel: 'Washing Bay' },
-  { id: 'alignment',    label: 'Wheel Alignment',          basePrice: 150, icon: Wrench,    contactLabel: 'Alignment & Balancing' },
-  { id: 'balancing',    label: 'Wheel Balancing',          basePrice: 100, icon: Wrench,    contactLabel: 'Alignment & Balancing' },
-  { id: 'vulcanizing',  label: 'Tire Puncture Repair',     basePrice: 20,  icon: CircleDot, contactLabel: 'Vulcanizing' },
-  { id: 'tire-replace', label: 'Tire Replacement',         basePrice: 150, icon: CircleDot, contactLabel: 'Vulcanizing' },
-  { id: 'ac-diag',      label: 'AC Diagnostics',           basePrice: 100, icon: Snowflake, contactLabel: 'AC Services' },
-  { id: 'ac-recharge',  label: 'AC Gas Recharge',          basePrice: 150, icon: Snowflake, contactLabel: 'AC Services' },
-  { id: 'auto-diag',    label: 'Auto Diagnostics',         basePrice: 80,  icon: Activity,  contactLabel: 'Auto Diagnosis' },
-  { id: 'full-diag',    label: 'Full System Diagnostics',  basePrice: 150, icon: Activity,  contactLabel: 'Auto Diagnosis' },
+  { id: 'basic-wash',   label: 'Basic Car Wash',         basePrice: 50,  icon: Droplets,  contactLabel: 'Washing Bay' },
+  { id: 'full-detail',  label: 'Full Detailing',          basePrice: 200, icon: Droplets,  contactLabel: 'Washing Bay' },
+  { id: 'engine-wash',  label: 'Engine Wash',             basePrice: 80,  icon: Droplets,  contactLabel: 'Washing Bay' },
+  { id: 'alignment',    label: 'Wheel Alignment',         basePrice: 150, icon: Wrench,    contactLabel: 'Alignment & Balancing' },
+  { id: 'balancing',    label: 'Wheel Balancing',         basePrice: 100, icon: Wrench,    contactLabel: 'Alignment & Balancing' },
+  { id: 'vulcanizing',  label: 'Tire Puncture Repair',    basePrice: 20,  icon: CircleDot, contactLabel: 'Vulcanizing' },
+  { id: 'tire-replace', label: 'Tire Replacement',        basePrice: 150, icon: CircleDot, contactLabel: 'Vulcanizing' },
+  { id: 'ac-diag',      label: 'AC Diagnostics',          basePrice: 100, icon: Snowflake, contactLabel: 'AC Services' },
+  { id: 'ac-recharge',  label: 'AC Gas Recharge',         basePrice: 150, icon: Snowflake, contactLabel: 'AC Services' },
+  { id: 'auto-diag',    label: 'Auto Diagnostics',        basePrice: 80,  icon: Activity,  contactLabel: 'Auto Diagnosis' },
+  { id: 'full-diag',    label: 'Full System Diagnostics', basePrice: 150, icon: Activity,  contactLabel: 'Auto Diagnosis' },
 ]
+
+// Custom event name shared with ContactSection
+export const PREFILL_EVENT = 'seaa:prefill-service'
 
 export default function PricingCalculatorSection() {
   const [vehicleType, setVehicleType] = useState('')
   const [selectedServices, setSelectedServices] = useState<string[]>([])
 
-  const toggleService = (serviceId: string) => {
+  const toggleService = (id: string) =>
     setSelectedServices((prev) =>
-      prev.includes(serviceId) ? prev.filter((s) => s !== serviceId) : [...prev, serviceId]
+      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
     )
-  }
 
   const calculateTotal = () => {
-    const vehicle = vehicleTypes.find((v) => v.id === vehicleType)
-    const multiplier = vehicle?.multiplier || 1
+    const multiplier = vehicleTypes.find((v) => v.id === vehicleType)?.multiplier ?? 1
     const subtotal = selectedServices.reduce((sum, id) => {
-      const s = serviceOptions.find((o) => o.id === id)
-      return sum + (s?.basePrice || 0)
+      return sum + (serviceOptions.find((s) => s.id === id)?.basePrice ?? 0)
     }, 0)
     return Math.round(subtotal * multiplier)
   }
@@ -57,26 +57,23 @@ export default function PricingCalculatorSection() {
     .map((id) => serviceOptions.find((s) => s.id === id))
     .filter(Boolean) as ServiceOption[]
 
-  // Pick the most-represented contact category from selected services
+  // Pick the most-represented contact category
   const getPrimaryContactLabel = () => {
     const counts: Record<string, number> = {}
     selectedServiceDetails.forEach((s) => {
-      counts[s.contactLabel] = (counts[s.contactLabel] || 0) + 1
+      counts[s.contactLabel] = (counts[s.contactLabel] ?? 0) + 1
     })
     return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? ''
   }
 
   const handleBookService = () => {
     const label = getPrimaryContactLabel()
-    const contactSection = document.getElementById('contact')
-    if (label) {
-      const select = document.getElementById('service') as HTMLSelectElement | null
-      if (select) {
-        select.value = label
-        select.dispatchEvent(new Event('change', { bubbles: true }))
-      }
-    }
-    contactSection?.scrollIntoView({ behavior: 'smooth' })
+    // Fire a custom event that ContactSection listens for
+    window.dispatchEvent(new CustomEvent(PREFILL_EVENT, { detail: { service: label } }))
+    // Scroll after a tiny tick so React re-render happens first
+    setTimeout(() => {
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+    }, 50)
   }
 
   return (
@@ -156,7 +153,9 @@ export default function PricingCalculatorSection() {
                     </div>
                   )}
                   <div className="price-list">
-                    <p className="text-sm font-medium" style={{ color: 'var(--muted-foreground)' }}>Selected Services:</p>
+                    <p className="text-sm font-medium" style={{ color: 'var(--muted-foreground)' }}>
+                      Selected Services:
+                    </p>
                     {selectedServiceDetails.map((service) => (
                       <div key={service.id} className="price-item">
                         <span>{service.label}</span>
