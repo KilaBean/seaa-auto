@@ -1,9 +1,8 @@
 // src/components/sections/ContactSection.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { MapPin, Phone, Mail, Clock, ExternalLink, CheckCircle2, ArrowRight } from 'lucide-react'
-import { PREFILL_EVENT } from './PricingCalculatorSection'
 
 const serviceOptions = [
   'Washing Bay',
@@ -29,22 +28,23 @@ export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
 
-  // Listen for prefill event fired by PricingCalculatorSection
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const service = (e as CustomEvent<{ service: string }>).detail.service
-      if (service) {
-        setFormData((prev) => ({ ...prev, service }))
-      }
-    }
-    window.addEventListener(PREFILL_EVENT, handler)
-    return () => window.removeEventListener(PREFILL_EVENT, handler)
-  }, [])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+
+    const subject = encodeURIComponent(`Service Request: ${formData.service || 'General Enquiry'}`)
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\n` +
+      `Phone: ${formData.phone}\n` +
+      `Email: ${formData.email}\n` +
+      `Service: ${formData.service}\n\n` +
+      `Message:\n${formData.message || 'No additional message.'}`
+    )
+
+    window.location.href = `mailto:Jeffkofi0@gmail.com?subject=${subject}&body=${body}`
+
+    // Brief delay so user sees the sending state, then show success
+    await new Promise((resolve) => setTimeout(resolve, 800))
     setIsSubmitting(false)
     setIsSubmitted(true)
     setFormData(emptyForm)

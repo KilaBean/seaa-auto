@@ -1,17 +1,10 @@
 // src/app/layout.tsx
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Font variables removed — base.css already sets:
+// font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+// This avoids any Google Fonts network dependency at build time.
 
 const SITE_URL = "https://seaaauto.com";
 
@@ -50,9 +43,7 @@ export const metadata: Metadata = {
     "vehicle repair Ghana",
   ],
 
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
 
   authors: [{ name: "SEAA Auto Service Center", url: SITE_URL }],
   creator: "SEAA Auto Service Center",
@@ -102,12 +93,6 @@ export const metadata: Metadata = {
     },
   },
 
-  // ── STEP: Paste your Google Search Console verification code below ────────
-  // 1. Go to search.google.com/search-console
-  // 2. Add property → URL Prefix → https://seaaauto.com
-  // 3. Choose HTML tag verification → copy the content="..." value
-  // 4. Replace YOUR_GOOGLE_VERIFICATION_CODE below with that value
-  // 5. Push to GitHub, then click Verify in Search Console
   verification: {
     google: "ZmGLlgzhi2Uds6wqykqR6t-0OI9yX7VEIHcZlt0PkDM",
   },
@@ -122,18 +107,17 @@ const structuredData = {
   url: SITE_URL,
   logo: `${SITE_URL}/favicon.png`,
   image: `${SITE_URL}/og-image.svg`,
-  // ── Replace these with real business details ──────────────────────────────
-  telephone: "+233XXXXXXXXX",
-  email: "info@seaaauto.com",
+  telephone: "+233246020823",
+  email: "Jeffkofi0@gmail.com",
   address: {
     "@type": "PostalAddress",
     addressCountry: "GH",
-    addressLocality: "Ghana",   // e.g. "Accra"
-    streetAddress: "",          // e.g. "123 Main Street, Tema"
+    addressLocality: "Ghana",
+    streetAddress: "",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: "4.967075",      // get exact values from Google Maps
+    latitude: "4.967075",
     longitude: "-4.080509",
   },
   openingHoursSpecification: [
@@ -181,13 +165,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* JSON-LD Structured Data — powers Google Knowledge Panel */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
         {children}
       </body>
     </html>

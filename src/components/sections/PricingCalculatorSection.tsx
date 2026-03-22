@@ -4,12 +4,12 @@
 import { useState } from 'react'
 import {
   Car, Wrench, CircleDot, Droplets, Snowflake, Activity,
-  Calculator, DollarSign, CheckCircle2, ArrowRight,
+  Calculator, DollarSign, CheckCircle2,
 } from 'lucide-react'
 import type { ElementType } from 'react'
 
 interface VehicleType { id: string; label: string; multiplier: number }
-interface ServiceOption { id: string; label: string; basePrice: number; icon: ElementType; contactLabel: string }
+interface ServiceOption { id: string; label: string; basePrice: number; icon: ElementType }
 
 const vehicleTypes: VehicleType[] = [
   { id: 'sedan',   label: 'Sedan',           multiplier: 1.0 },
@@ -19,21 +19,18 @@ const vehicleTypes: VehicleType[] = [
 ]
 
 const serviceOptions: ServiceOption[] = [
-  { id: 'basic-wash',   label: 'Basic Car Wash',         basePrice: 50,  icon: Droplets,  contactLabel: 'Washing Bay' },
-  { id: 'full-detail',  label: 'Full Detailing',          basePrice: 200, icon: Droplets,  contactLabel: 'Washing Bay' },
-  { id: 'engine-wash',  label: 'Engine Wash',             basePrice: 80,  icon: Droplets,  contactLabel: 'Washing Bay' },
-  { id: 'alignment',    label: 'Wheel Alignment',         basePrice: 150, icon: Wrench,    contactLabel: 'Alignment & Balancing' },
-  { id: 'balancing',    label: 'Wheel Balancing',         basePrice: 100, icon: Wrench,    contactLabel: 'Alignment & Balancing' },
-  { id: 'vulcanizing',  label: 'Tire Puncture Repair',    basePrice: 20,  icon: CircleDot, contactLabel: 'Vulcanizing' },
-  { id: 'tire-replace', label: 'Tire Replacement',        basePrice: 150, icon: CircleDot, contactLabel: 'Vulcanizing' },
-  { id: 'ac-diag',      label: 'AC Diagnostics',          basePrice: 100, icon: Snowflake, contactLabel: 'AC Services' },
-  { id: 'ac-recharge',  label: 'AC Gas Recharge',         basePrice: 150, icon: Snowflake, contactLabel: 'AC Services' },
-  { id: 'auto-diag',    label: 'Auto Diagnostics',        basePrice: 80,  icon: Activity,  contactLabel: 'Auto Diagnosis' },
-  { id: 'full-diag',    label: 'Full System Diagnostics', basePrice: 150, icon: Activity,  contactLabel: 'Auto Diagnosis' },
+  { id: 'basic-wash',   label: 'Basic Car Wash',         basePrice: 50,  icon: Droplets  },
+  { id: 'full-detail',  label: 'Full Detailing',          basePrice: 200, icon: Droplets  },
+  { id: 'engine-wash',  label: 'Engine Wash',             basePrice: 80,  icon: Droplets  },
+  { id: 'alignment',    label: 'Wheel Alignment',         basePrice: 150, icon: Wrench    },
+  { id: 'balancing',    label: 'Wheel Balancing',         basePrice: 100, icon: Wrench    },
+  { id: 'vulcanizing',  label: 'Tire Puncture Repair',    basePrice: 20,  icon: CircleDot },
+  { id: 'tire-replace', label: 'Tire Replacement',        basePrice: 150, icon: CircleDot },
+  { id: 'ac-diag',      label: 'AC Diagnostics',          basePrice: 100, icon: Snowflake },
+  { id: 'ac-recharge',  label: 'AC Gas Recharge',         basePrice: 150, icon: Snowflake },
+  { id: 'auto-diag',    label: 'Auto Diagnostics',        basePrice: 80,  icon: Activity  },
+  { id: 'full-diag',    label: 'Full System Diagnostics', basePrice: 150, icon: Activity  },
 ]
-
-// Custom event name shared with ContactSection
-export const PREFILL_EVENT = 'seaa:prefill-service'
 
 export default function PricingCalculatorSection() {
   const [vehicleType, setVehicleType] = useState('')
@@ -56,25 +53,6 @@ export default function PricingCalculatorSection() {
   const selectedServiceDetails = selectedServices
     .map((id) => serviceOptions.find((s) => s.id === id))
     .filter(Boolean) as ServiceOption[]
-
-  // Pick the most-represented contact category
-  const getPrimaryContactLabel = () => {
-    const counts: Record<string, number> = {}
-    selectedServiceDetails.forEach((s) => {
-      counts[s.contactLabel] = (counts[s.contactLabel] ?? 0) + 1
-    })
-    return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? ''
-  }
-
-  const handleBookService = () => {
-    const label = getPrimaryContactLabel()
-    // Fire a custom event that ContactSection listens for
-    window.dispatchEvent(new CustomEvent(PREFILL_EVENT, { detail: { service: label } }))
-    // Scroll after a tiny tick so React re-render happens first
-    setTimeout(() => {
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
-    }, 50)
-  }
 
   return (
     <section id="pricing" className="section">
@@ -169,9 +147,6 @@ export default function PricingCalculatorSection() {
                     <span className="price-total-value">GHS {calculateTotal()}</span>
                   </div>
                   <p className="price-note">*Final price may vary based on vehicle condition</p>
-                  <button className="btn btn-primary w-full mt-4" onClick={handleBookService}>
-                    Book This Service <ArrowRight size={16} />
-                  </button>
                 </>
               )}
             </div>
