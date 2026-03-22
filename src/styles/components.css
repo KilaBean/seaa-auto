@@ -1851,3 +1851,134 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ============================================
+   ADD THESE TO THE END OF src/styles/components.css
+   ============================================ */
+
+/* HEADER SHRINK ON SCROLL */
+.header { transition: background-color 0.3s, box-shadow 0.3s; }
+.header-scrolled {
+  background-color: rgba(13, 43, 91, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+.header-content { transition: height 0.3s; }
+.header-content-scrolled { height: 3.5rem !important; }
+.mobile-nav-link.active { color: var(--seaa-yellow); }
+
+/* SCROLL REVEAL ANIMATIONS */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-on-scroll.revealed { opacity: 1; transform: translateY(0); }
+
+/* GALLERY LIGHTBOX */
+.lightbox-backdrop {
+  position: fixed; inset: 0;
+  background-color: rgba(0, 0, 0, 0.92);
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+  animation: fade-in 0.2s ease;
+}
+.lightbox-container {
+  position: relative; width: 100%; max-width: 900px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.lightbox-image-wrap {
+  position: relative; width: 100%; height: 60vh;
+  border-radius: 0.75rem; overflow: hidden;
+}
+.lightbox-close {
+  position: absolute; top: -2.5rem; right: 0;
+  color: white; background: rgba(255,255,255,0.1);
+  border: none; border-radius: 9999px;
+  width: 2rem; height: 2rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background-color 0.2s; z-index: 10;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.25); }
+.lightbox-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  color: white; background: rgba(255,255,255,0.1);
+  border: none; border-radius: 9999px;
+  width: 2.75rem; height: 2.75rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background-color 0.2s; z-index: 10;
+}
+.lightbox-nav:hover { background: rgba(255,255,255,0.25); }
+.lightbox-prev { left: -3.5rem; }
+.lightbox-next { right: -3.5rem; }
+@media (max-width: 640px) {
+  .lightbox-prev { left: 0.25rem; }
+  .lightbox-next { right: 0.25rem; }
+  .lightbox-image-wrap { height: 50vw; min-height: 220px; }
+}
+.lightbox-caption { margin-top: 1rem; text-align: center; padding: 0 1rem; }
+
+/* WHATSAPP WIDGET */
+.whatsapp-widget {
+  position: fixed; bottom: 6rem; left: 1.5rem;
+  z-index: 100;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem;
+}
+.whatsapp-toggle {
+  width: 3.5rem; height: 3.5rem; border-radius: 9999px;
+  background-color: #25D366; color: white; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.whatsapp-toggle:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6); }
+.whatsapp-toggle.bounce { animation: bounce-slow 2.5s infinite; }
+.whatsapp-popup {
+  background: white; border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  width: 300px; overflow: hidden;
+  border: 1px solid var(--border); margin-bottom: 0.5rem;
+}
+.whatsapp-popup-header {
+  background: #075E54; padding: 1rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.whatsapp-popup-avatar {
+  width: 2.5rem; height: 2.5rem; border-radius: 9999px;
+  background: #25D366; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.whatsapp-popup-info { flex: 1; }
+.whatsapp-popup-name { color: white; font-weight: 600; font-size: 0.9rem; margin: 0; }
+.whatsapp-popup-status {
+  color: rgba(255,255,255,0.75); font-size: 0.75rem;
+  display: flex; align-items: center; gap: 0.35rem; margin: 0;
+}
+.whatsapp-status-dot {
+  display: inline-block; width: 0.45rem; height: 0.45rem;
+  border-radius: 9999px; background: #25D366;
+}
+.whatsapp-popup-close {
+  background: rgba(255,255,255,0.15); border: none; color: white; border-radius: 9999px;
+  width: 1.75rem; height: 1.75rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0; transition: background-color 0.2s;
+}
+.whatsapp-popup-close:hover { background: rgba(255,255,255,0.3); }
+.whatsapp-popup-body { background: #ECE5DD; padding: 1rem; }
+.whatsapp-chat-bubble {
+  background: white; border-radius: 0 0.75rem 0.75rem 0.75rem;
+  padding: 0.75rem 1rem; font-size: 0.875rem; color: #1a1a1a;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1); line-height: 1.5;
+}
+.whatsapp-popup-footer { padding: 1rem; background: white; }
+.whatsapp-start-btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  width: 100%; padding: 0.65rem 1rem; background: #25D366; color: white;
+  border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem;
+  text-decoration: none; transition: background-color 0.2s;
+}
+.whatsapp-start-btn:hover { background: #1ebe5d; }
+@media (max-width: 480px) {
+  .whatsapp-widget { left: 1rem; bottom: 5.5rem; }
+  .whatsapp-popup { width: calc(100vw - 2rem); }
+}

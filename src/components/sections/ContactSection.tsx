@@ -21,16 +21,11 @@ interface FormData {
   message: string
 }
 
-const emptyForm: FormData = {
-  name: '',
-  email: '',
-  phone: '',
-  service: '',
-  message: '',
-}
+const emptyForm: FormData = { name: '', email: '', phone: '', service: '', message: '' }
 
-export default function ContactSection() {
-  const [formData, setFormData] = useState<FormData>(emptyForm)
+// Allow pre-filling service from PricingCalculator
+export default function ContactSection({ prefilledService = '' }: { prefilledService?: string }) {
+  const [formData, setFormData] = useState<FormData>({ ...emptyForm, service: prefilledService })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
 
@@ -47,7 +42,7 @@ export default function ContactSection() {
   return (
     <section id="contact" className="section" style={{ backgroundColor: 'var(--secondary)' }}>
       <div className="container">
-        <div className="section-header">
+        <div className="section-header reveal-on-scroll">
           <span className="badge badge-outline mb-4">Contact Us</span>
           <h2 className="section-title">Get in Touch</h2>
           <p className="section-subtitle">
@@ -57,7 +52,7 @@ export default function ContactSection() {
 
         <div className="contact-grid">
           {/* Quote Form */}
-          <div className="card">
+          <div className="card reveal-on-scroll">
             <div className="card-header">
               <h3 className="card-title">Request a Quote</h3>
               <p className="card-description">
@@ -67,26 +62,15 @@ export default function ContactSection() {
             <div className="card-content">
               {isSubmitted ? (
                 <div className="text-center py-8">
-                  <div
-                    style={{
-                      width: '4rem',
-                      height: '4rem',
-                      borderRadius: '9999px',
-                      backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      margin: '0 auto 1rem',
-                    }}
-                  >
+                  <div style={{
+                    width: '4rem', height: '4rem', borderRadius: '9999px',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    margin: '0 auto 1rem',
+                  }}>
                     <CheckCircle2 size={32} style={{ color: '#22c55e' }} />
                   </div>
-                  <h3
-                    className="card-title"
-                    style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}
-                  >
-                    Thank You!
-                  </h3>
+                  <h3 className="card-title" style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Thank You!</h3>
                   <p style={{ color: 'var(--muted-foreground)' }}>
                     Your message has been received. We&apos;ll contact you shortly.
                   </p>
@@ -95,108 +79,53 @@ export default function ContactSection() {
                 <form onSubmit={handleSubmit} className="feature-list" style={{ gap: '1rem' }}>
                   <div className="form-name-phone-grid">
                     <div className="form-group">
-                      <label htmlFor="name" className="form-label">
-                        Full Name
-                      </label>
-                      <input
-                        id="name"
-                        type="text"
-                        className="form-input"
-                        placeholder="John Doe"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        required
-                      />
+                      <label htmlFor="name" className="form-label">Full Name</label>
+                      <input id="name" type="text" className="form-input" placeholder="John Doe"
+                        value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="phone" className="form-label">
-                        Phone
-                      </label>
-                      <input
-                        id="phone"
-                        type="tel"
-                        className="form-input"
-                        placeholder="+233 XX XXX XXXX"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        required
-                      />
+                      <label htmlFor="phone" className="form-label">Phone</label>
+                      <input id="phone" type="tel" className="form-input" placeholder="+233 XX XXX XXXX"
+                        value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} required />
                     </div>
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="email" className="form-label">
-                      Email
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      className="form-input"
-                      placeholder="john@example.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      required
-                    />
+                    <label htmlFor="email" className="form-label">Email</label>
+                    <input id="email" type="email" className="form-input" placeholder="john@example.com"
+                      value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required />
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="service" className="form-label">
-                      Service Needed
-                    </label>
-                    <select
-                      id="service"
-                      className="form-select"
-                      value={formData.service}
-                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      required
-                    >
+                    <label htmlFor="service" className="form-label">Service Needed</label>
+                    <select id="service" className="form-select" value={formData.service}
+                      onChange={(e) => setFormData({ ...formData, service: e.target.value })} required>
                       <option value="">Select a service...</option>
                       {serviceOptions.map((service) => (
-                        <option key={service} value={service}>
-                          {service}
-                        </option>
+                        <option key={service} value={service}>{service}</option>
                       ))}
                     </select>
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="message" className="form-label">
-                      Message (Optional)
-                    </label>
-                    <textarea
-                      id="message"
-                      className="form-textarea"
+                    <label htmlFor="message" className="form-label">Message (Optional)</label>
+                    <textarea id="message" className="form-textarea" rows={4}
                       placeholder="Tell us more about your vehicle and what you need..."
-                      rows={4}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    />
+                      value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} />
                   </div>
 
-                  <button
-                    type="submit"
-                    className="btn btn-primary w-full"
-                    disabled={isSubmitting}
-                  >
+                  <button type="submit" className="btn btn-primary w-full" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
-                        <div
-                          className="animate-spin"
-                          style={{
-                            width: '1rem',
-                            height: '1rem',
-                            border: '2px solid var(--seaa-blue)',
-                            borderTopColor: 'transparent',
-                            borderRadius: '9999px',
-                          }}
-                        />
+                        <div className="animate-spin" style={{
+                          width: '1rem', height: '1rem',
+                          border: '2px solid var(--seaa-blue)',
+                          borderTopColor: 'transparent', borderRadius: '9999px',
+                        }} />
                         Sending...
                       </>
                     ) : (
-                      <>
-                        Send Request
-                        <ArrowRight size={16} />
-                      </>
+                      <>Send Request <ArrowRight size={16} /></>
                     )}
                   </button>
                 </form>
@@ -205,78 +134,52 @@ export default function ContactSection() {
           </div>
 
           {/* Map + Contact Info */}
-          <div className="feature-list" style={{ gap: '1.5rem' }}>
+          <div className="feature-list reveal-on-scroll" style={{ gap: '1.5rem' }}>
             <div className="card overflow-hidden">
               <div className="map-container">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2035115.5313229924!2d-4.080509806250005!3d4.967075799999991!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfe7796559c868a7%3A0x56689ee11454677c!2sSEAA%20Auto%20Service%20Center!5e0!3m2!1sen!2sgh!4v1773781305518!5m2!1sen!2sgh"
-                  className="map-iframe"
-                  allowFullScreen
-                  loading="lazy"
+                  className="map-iframe" allowFullScreen loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               </div>
               <div className="card-content p-4">
-                <a
-                  href="https://www.google.com/maps/dir//''/data=!4m7!4m6!1m1!4e2!1m2!1m1!1s0xfe7796559c868a7:0x56689ee11454677c!3e0?g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAEYASAB"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="map-directions"
-                >
-                  <ExternalLink size={16} />
-                  Get Directions
+                <a href="https://www.google.com/maps/dir//''/data=!4m7!4m6!1m1!4e2!1m2!1m1!1s0xfe7796559c868a7:0x56689ee11454677c!3e0"
+                  target="_blank" rel="noopener noreferrer" className="map-directions">
+                  <ExternalLink size={16} /> Get Directions
                 </a>
               </div>
             </div>
 
             <div className="contact-info-grid">
               <div className="contact-info-card">
-                <div className="contact-info-icon">
-                  <MapPin />
-                </div>
+                <div className="contact-info-icon"><MapPin /></div>
                 <div>
                   <h3 className="contact-info-title">Location</h3>
-                  <p className="contact-info-text">
-                    SEAA Auto Service Center
-                    <br />
-                    Ghana
-                  </p>
+                  <p className="contact-info-text">SEAA Auto Service Center<br />Ghana</p>
                 </div>
               </div>
-
               <div className="contact-info-card">
-                <div className="contact-info-icon">
-                  <Phone />
-                </div>
+                <div className="contact-info-icon"><Phone /></div>
                 <div>
                   <h3 className="contact-info-title">Phone</h3>
                   <p className="contact-info-text" style={{ color: 'var(--seaa-yellow)' }}>
-                    +233 XX XXX XXXX
+                    +233 24 602 0823
                   </p>
                 </div>
               </div>
-
               <div className="contact-info-card">
-                <div className="contact-info-icon">
-                  <Mail />
-                </div>
+                <div className="contact-info-icon"><Mail /></div>
                 <div>
                   <h3 className="contact-info-title">Email</h3>
                   <p className="contact-info-text">info@seaaauto.com</p>
                 </div>
               </div>
-
               <div className="contact-info-card">
-                <div className="contact-info-icon">
-                  <Clock />
-                </div>
+                <div className="contact-info-icon"><Clock /></div>
                 <div>
                   <h3 className="contact-info-title">Hours</h3>
-                  <p className="contact-info-text">
-                    Mon-Fri: 8AM-6PM
-                    <br />
-                    Sat: 9AM-4PM
-                  </p>
+                  <p className="contact-info-text">Mon-Fri: 8AM-6PM<br />Sat: 9AM-4PM</p>
                 </div>
               </div>
             </div>

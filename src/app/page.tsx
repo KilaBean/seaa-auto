@@ -9,10 +9,13 @@ import AboutSection from '@/components/sections/AboutSection'
 import ContactSection from '@/components/sections/ContactSection'
 import Footer from '@/components/sections/Footer'
 import LiveChatWidget from '@/components/sections/LiveChatWidget'
+import WhatsAppWidget from '@/components/sections/WhatsAppWidget'
+import ScrollReveal from '@/components/shared/ScrollReveal'
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollReveal />
       <Header />
       <main className="flex-1" style={{ paddingTop: '4rem' }}>
         <HeroSection />
@@ -25,6 +28,7 @@ export default function Home() {
       </main>
       <Footer />
       <LiveChatWidget />
+      <WhatsAppWidget />
     </div>
   )
 }
