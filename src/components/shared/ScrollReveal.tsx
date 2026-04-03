@@ -1,27 +1,16 @@
 // src/components/shared/ScrollReveal.tsx
 'use client'
-
 import { useEffect } from 'react'
 
 export default function ScrollReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll('.reveal-on-scroll')
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
+    const els = document.querySelectorAll('.reveal')
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } }),
       { threshold: 0.12 }
     )
-
-    els.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+    els.forEach((el) => obs.observe(el))
+    return () => obs.disconnect()
   }, [])
-
   return null
 }

@@ -1,7 +1,27 @@
-/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Custom styles — no Tailwind; all utility classes are in utilities.css */
-@import "../styles/variables.css";
-@import "../styles/base.css";
-@import "../styles/components.css";
-@import "../styles/utilities.css";
+@layer base {
+  * { border-color: #E5E7EB; }
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  body {
+    background-color: #ffffff;
+    color: #0D2B5B;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection { background-color: #F4B400; color: #0D2B5B; }
+}
+
+@layer utilities {
+  /* Reveal on scroll — toggled by ScrollReveal.tsx */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Scrollbar */
+  .scrollbar-thin { scrollbar-width: thin; scrollbar-color: #0D2B5B #F5F5F5; }
+  .scrollbar-thin::-webkit-scrollbar { width: 5px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: #F5F5F5; border-radius: 3px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #0D2B5B; border-radius: 3px; }
+}

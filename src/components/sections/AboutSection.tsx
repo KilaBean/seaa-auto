@@ -3,88 +3,67 @@ import Image from 'next/image'
 import { Shield, Zap, Award } from 'lucide-react'
 import type { ElementType } from 'react'
 
-interface Benefit {
-  icon: ElementType
-  title: string
-  description: string
-}
-
-const benefits: Benefit[] = [
-  {
-    icon: Shield,
-    title: 'Quality Guaranteed',
-    description: 'All our services come with a satisfaction guarantee. We stand behind our work.',
-  },
-  {
-    icon: Zap,
-    title: 'Quick Turnaround',
-    description: 'Most services completed same-day. Get back on the road faster.',
-  },
-  {
-    icon: Award,
-    title: 'Certified Experts',
-    description: 'Our technicians are certified with years of hands-on experience.',
-  },
+const benefits: { icon: ElementType; title: string; description: string }[] = [
+  { icon: Shield, title: 'Quality Guaranteed', description: 'All our services come with a satisfaction guarantee. We stand behind our work.' },
+  { icon: Zap,    title: 'Quick Turnaround',   description: 'Most services completed same-day. Get back on the road faster.' },
+  { icon: Award,  title: 'Certified Experts',  description: 'Our technicians are certified with years of hands-on experience.' },
 ]
 
 const stats = [
-  { value: '2+', label: 'Years of Excellence' },
-  { value: '7', label: 'Expert Technicians' },
-  { value: '10K+', label: 'Vehicles Serviced' },
-  { value: '99%', label: 'Customer Satisfaction' },
+  { value: '2+',   label: 'Years of Excellence'   },
+  { value: '7',    label: 'Expert Technicians'     },
+  { value: '10K+', label: 'Vehicles Serviced'      },
+  { value: '99%',  label: 'Customer Satisfaction'  },
 ]
 
 export default function AboutSection() {
   return (
-    <section id="about" className="section">
-      <div className="container">
-        <div className="about-grid">
-          <div className="reveal-on-scroll">
-            <span className="badge badge-outline mb-4">About Us</span>
-            <h2 className="section-title about-title">
-              Why Choose <span style={{ color: 'var(--seaa-yellow)' }}>SEAA</span> Auto Services?
+    <section id="about" className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+          {/* Left */}
+          <div className="reveal">
+            <span className="inline-block bg-seaa-blue/5 text-seaa-blue border border-seaa-blue/20 text-xs font-semibold px-3 py-1 rounded-full mb-5">About Us</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-seaa-blue mb-4 leading-tight">
+              Why Choose <span className="text-seaa-yellow">SEAA</span> Auto Services?
             </h2>
-            <p className="section-subtitle" style={{ textAlign: 'left', margin: '0 0 2rem 0' }}>
+            <p className="text-gray-500 leading-relaxed mb-8">
               SEAA Auto Services has built a strong reputation for excellence in automotive care.
               We combine modern equipment with dedicated customer service to deliver an experience
               that keeps our customers coming back.
             </p>
-            <div className="feature-list" style={{ gap: '1.5rem' }}>
-              {benefits.map((benefit) => (
-                <div key={benefit.title} className="flex gap-4">
-                  <div className="service-icon-wrapper" style={{ width: '3rem', height: '3rem' }}>
-                    <benefit.icon className="service-icon" style={{ width: '1.5rem', height: '1.5rem' }} />
+            <div className="flex flex-col gap-5">
+              {benefits.map((b) => (
+                <div key={b.title} className="flex gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-seaa-yellow/10 flex items-center justify-center shrink-0">
+                    <b.icon size={22} className="text-seaa-yellow" />
                   </div>
                   <div>
-                    <h3 className="card-title" style={{ fontSize: '1.125rem', marginBottom: '0.25rem' }}>
-                      {benefit.title}
-                    </h3>
-                    <p style={{ color: 'var(--muted-foreground)' }}>{benefit.description}</p>
+                    <h3 className="font-semibold text-seaa-blue mb-0.5">{b.title}</h3>
+                    <p className="text-sm text-gray-500">{b.description}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="reveal-on-scroll">
-            <div className="relative mb-6" style={{ borderRadius: '1rem', overflow: 'hidden', aspectRatio: '16/9' }}>
+          {/* Right */}
+          <div className="reveal">
+            <div className="relative rounded-2xl overflow-hidden aspect-video mb-5 shadow-xl">
               <Image src="/images/team.jpg" alt="SEAA Auto Services Team" fill className="object-cover" />
-              <div className="card-overlay" />
-              <div style={{ position: 'absolute', bottom: '1rem', left: '1rem', right: '1rem' }}>
+              <div className="absolute inset-0 bg-gradient-to-t from-seaa-blue/80 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4">
                 <p className="text-white font-semibold text-lg">Our Expert Team</p>
-                <p className="text-white/80 text-sm">7 Certified Technicians</p>
+                <p className="text-white/75 text-sm">7 Certified Technicians</p>
               </div>
             </div>
-            <div style={{
-              background: 'linear-gradient(to bottom right, rgba(244, 180, 0, 0.2), rgba(244, 180, 0, 0.05))',
-              borderRadius: '1rem',
-              padding: '1.5rem',
-            }}>
-              <div className="stat-grid">
+            <div className="bg-gradient-to-br from-seaa-yellow/20 to-seaa-yellow/5 rounded-2xl p-5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {stats.map(({ value, label }) => (
-                  <div key={label} className="stat-card">
-                    <div className="stat-value">{value}</div>
-                    <div className="stat-label">{label}</div>
+                  <div key={label} className="bg-white rounded-xl p-3 text-center shadow-sm">
+                    <div className="text-xl sm:text-2xl font-bold text-seaa-yellow">{value}</div>
+                    <div className="text-xs text-seaa-blue/60 mt-0.5">{label}</div>
                   </div>
                 ))}
               </div>
