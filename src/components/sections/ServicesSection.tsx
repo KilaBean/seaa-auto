@@ -6,7 +6,7 @@ import type { ElementType } from 'react'
 
 interface Service {
   icon: ElementType; title: string; description: string
-  features: string[]; price: string; image: string
+  features: string[]; price: string; image: string; placeholder?: boolean
 }
 
 const services: Service[] = [
@@ -19,10 +19,10 @@ const services: Service[] = [
   { icon: CircleDot, title: 'Vulcanizing',            price: 'From GHS 20',  image: '/images/vulcanizing.jpg',
     description: 'Expert tire repair and patching. We fix punctures and damages quickly.',
     features: ['Tire Punctures Repair', 'Tire Patching', 'Tire Replacement', 'Tube Repair'] },
-  { icon: Snowflake, title: 'Air Condition Services', price: 'From GHS 100', image: '/images/ac-service.jpg',
+  { icon: Snowflake, title: 'Air Condition Services', price: 'From GHS 100', image: '', placeholder: true,
     description: 'Complete AC services including diagnostics, repair, and recharging.',
     features: ['AC Diagnostics', 'AC Repair', 'Gas Recharge', 'AC Component Replacement'] },
-  { icon: Activity,  title: 'Auto Diagnosis',         price: 'From GHS 80',  image: '/images/auto-diagnosis.jpg',
+  { icon: Activity,  title: 'Auto Diagnosis',         price: 'From GHS 80',  image: '', placeholder: true,
     description: 'Advanced computerized diagnostics to identify vehicle issues accurately.',
     features: ['Engine Diagnostics', 'Check Engine Light', 'Electrical Systems', 'Performance Analysis'] },
 ]
@@ -31,10 +31,21 @@ function ServiceCard({ service }: { service: Service }) {
   return (
     <div className="group bg-white rounded-xl border-2 border-transparent hover:border-seaa-yellow
       shadow hover:shadow-xl transition-all duration-300 flex flex-col h-full overflow-hidden">
-      {/* Image */}
+      {/* Image / Placeholder */}
       <div className="relative h-48 overflow-hidden">
-        <Image src={service.image} alt={service.title} fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105" />
+        {service.placeholder ? (
+          <div className="absolute inset-0 bg-gradient-to-br from-seaa-blue to-seaa-blue-light flex flex-col items-center justify-center gap-3">
+            <div className="absolute inset-0 opacity-10"
+              style={{ backgroundImage: 'radial-gradient(circle, #F4B400 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+            <div className="relative z-10 w-16 h-16 rounded-full bg-seaa-yellow/20 border-2 border-seaa-yellow/40 flex items-center justify-center">
+              <service.icon size={32} className="text-seaa-yellow" />
+            </div>
+            <span className="relative z-10 text-white/50 text-xs font-medium tracking-wide">Photo coming soon</span>
+          </div>
+        ) : (
+          <Image src={service.image} alt={service.title} fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-seaa-blue/90 to-transparent" />
         <span className="absolute bottom-3 left-3 bg-seaa-yellow text-seaa-blue text-xs font-bold px-2.5 py-1 rounded-md">
           {service.price}
