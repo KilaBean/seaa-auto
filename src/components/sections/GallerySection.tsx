@@ -2,15 +2,15 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
-import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Snowflake, Activity } from 'lucide-react'
 
 const galleryItems = [
-  { image: '/images/washing-bay.jpg',              title: 'Professional Car Washing',    category: 'Washing Bay',         description: 'Premium washing and detailing services' },
-  { image: '/images/alignment-balancing.jpg',      title: 'Wheel Alignment & Balancing', category: 'Balancing & Alignment',description: 'State-of-the-art alignment equipment' },
-  { image: '/images/vulcanizing.jpg',              title: 'Tire Vulcanizing Service',    category: 'Vulcanizing',         description: 'Expert tire repair and patching' },
-  { image: '/images/ac-service.jpg',               title: 'Air Condition Service',       category: 'AC Services',         description: 'Professional AC diagnostics and repair' },
-  { image: '/images/auto-diagnosis.jpg',           title: 'Auto Diagnostics',            category: 'Auto Diagnosis',      description: 'Advanced computerized vehicle diagnostics' },
-  { image: '/images/gallery/before-after-detail.jpg', title: 'Detailing Transformation',category: 'Washing Bay',         description: 'Before & after detailing results' },
+  { image: '/images/washing-bay.jpg',              title: 'Professional Car Washing',    category: 'Washing Bay',          description: 'Premium washing and detailing services',          placeholder: false },
+  { image: '/images/alignment-balancing.jpg',      title: 'Wheel Alignment & Balancing', category: 'Balancing & Alignment', description: 'State-of-the-art alignment equipment',            placeholder: false },
+  { image: '/images/vulcanizing.jpg',              title: 'Tire Vulcanizing Service',    category: 'Vulcanizing',           description: 'Expert tire repair and patching',                 placeholder: false },
+  { image: '',                                     title: 'Air Condition Service',       category: 'AC Services',           description: 'Professional AC diagnostics and repair',          placeholder: true  },
+  { image: '',                                     title: 'Auto Diagnostics',            category: 'Auto Diagnosis',        description: 'Advanced computerized vehicle diagnostics',        placeholder: true  },
+  { image: '/images/gallery/before-after-detail.jpg', title: 'Detailing Transformation',category: 'Washing Bay',           description: 'Before & after detailing results',                placeholder: false },
 ]
 const categories = ['All', 'Washing Bay', 'Balancing & Alignment', 'Vulcanizing', 'AC Services', 'Auto Diagnosis']
 
@@ -46,7 +46,20 @@ export default function GallerySection() {
           {items.map((item, idx) => (
             <div key={idx} onClick={() => setLbIndex(idx)}
               className="group relative aspect-video rounded-xl overflow-hidden cursor-pointer shadow hover:shadow-xl transition-shadow duration-300">
-              <Image src={item.image} alt={item.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+              {item.placeholder ? (
+                <div className="absolute inset-0 bg-gradient-to-br from-seaa-blue to-seaa-blue-light flex flex-col items-center justify-center gap-2">
+                  <div className="absolute inset-0 opacity-10"
+                    style={{ backgroundImage: 'radial-gradient(circle, #F4B400 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+                  <div className="relative z-10 w-14 h-14 rounded-full bg-seaa-yellow/20 border-2 border-seaa-yellow/40 flex items-center justify-center">
+                    {item.category === 'AC Services'
+                      ? <Snowflake size={28} className="text-seaa-yellow" />
+                      : <Activity  size={28} className="text-seaa-yellow" />}
+                  </div>
+                  <span className="relative z-10 text-white/50 text-xs font-medium">Photo coming soon</span>
+                </div>
+              ) : (
+                <Image src={item.image} alt={item.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-seaa-blue/90 via-seaa-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                 <span className="text-xs font-semibold text-seaa-yellow">{item.category}</span>
@@ -73,9 +86,22 @@ export default function GallerySection() {
               className="absolute left-0 sm:-left-14 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors z-10">
               <ChevronLeft size={24} />
             </button>
-            {/* Image */}
+            {/* Image / Placeholder */}
             <div className="relative w-full aspect-video rounded-xl overflow-hidden">
-              <Image src={current.image} alt={current.title} fill className="object-contain" />
+              {current.placeholder ? (
+                <div className="absolute inset-0 bg-gradient-to-br from-seaa-blue to-seaa-blue-light flex flex-col items-center justify-center gap-3">
+                  <div className="absolute inset-0 opacity-10"
+                    style={{ backgroundImage: 'radial-gradient(circle, #F4B400 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+                  <div className="relative z-10 w-20 h-20 rounded-full bg-seaa-yellow/20 border-2 border-seaa-yellow/40 flex items-center justify-center">
+                    {current.category === 'AC Services'
+                      ? <Snowflake size={40} className="text-seaa-yellow" />
+                      : <Activity  size={40} className="text-seaa-yellow" />}
+                  </div>
+                  <span className="relative z-10 text-white/50 text-sm font-medium">Photo coming soon</span>
+                </div>
+              ) : (
+                <Image src={current.image} alt={current.title} fill className="object-contain" />
+              )}
             </div>
             {/* Next */}
             <button onClick={() => setLbIndex((i) => (i !== null ? (i + 1) % items.length : null))}
