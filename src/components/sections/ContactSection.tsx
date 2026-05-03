@@ -151,13 +151,13 @@ export default function ContactSection() {
 
             <div className="grid grid-cols-2 gap-3">
               {infoCards.map(({ icon: Icon, title, text, color }) => (
-                <div key={title} className="bg-white rounded-xl border border-gray-100 shadow p-4 flex items-start gap-3">
+                <div key={title} className="bg-white rounded-xl border border-gray-100 shadow p-4 flex items-start gap-3 min-w-0">
                   <div className="w-9 h-9 rounded-lg bg-seaa-yellow/10 flex items-center justify-center shrink-0">
                     <Icon size={16} className="text-seaa-yellow" />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <h4 className="text-xs font-bold text-seaa-blue mb-0.5">{title}</h4>
-                    <p className={`text-xs leading-relaxed whitespace-pre-line ${color || 'text-gray-500'}`}>{text}</p>
+                    <p className={`text-xs leading-relaxed whitespace-pre-line break-words ${color || 'text-gray-500'}`}>{text}</p>
                   </div>
                 </div>
               ))}
