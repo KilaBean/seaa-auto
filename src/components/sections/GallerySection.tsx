@@ -2,15 +2,15 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
-import { X, ChevronLeft, ChevronRight, Snowflake, Activity } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Snowflake, Activity, ImageIcon } from 'lucide-react'
 
 const galleryItems = [
-  { image: '/images/washing-bay.jpg',              title: 'Professional Car Washing',    category: 'Washing Bay',          description: 'Premium washing and detailing services',          placeholder: false },
-  { image: '/images/alignment-balancing.jpg',      title: 'Wheel Alignment & Balancing', category: 'Balancing & Alignment', description: 'State-of-the-art alignment equipment',            placeholder: false },
-  { image: '/images/vulcanizing.jpg',              title: 'Tire Vulcanizing Service',    category: 'Vulcanizing',           description: 'Expert tire repair and patching',                 placeholder: false },
-  { image: '',                                     title: 'Air Condition Service',       category: 'AC Services',           description: 'Professional AC diagnostics and repair',          placeholder: true  },
-  { image: '',                                     title: 'Auto Diagnostics',            category: 'Auto Diagnosis',        description: 'Advanced computerized vehicle diagnostics',        placeholder: true  },
-  { image: '/images/gallery/before-after-detail.jpg', title: 'Detailing Transformation',category: 'Washing Bay',           description: 'Before & after detailing results',                placeholder: false },
+  { image: '/images/washing-bay.jpg',              title: 'Professional Car Washing',    category: 'Washing Bay',          description: 'Premium washing and detailing services',         placeholder: false },
+  { image: '/images/alignment-balancing.jpg',      title: 'Wheel Alignment & Balancing', category: 'Balancing & Alignment', description: 'State-of-the-art alignment equipment',           placeholder: false },
+  { image: '/images/vulcanizing.jpg',              title: 'Tire Vulcanizing Service',    category: 'Vulcanizing',           description: 'Expert tire repair and patching',                placeholder: false },
+  { image: '',                                     title: 'Air Condition Service',       category: 'AC Services',           description: 'Professional AC diagnostics and repair',         placeholder: true  },
+  { image: '',                                     title: 'Auto Diagnostics',            category: 'Auto Diagnosis',        description: 'Advanced computerized vehicle diagnostics',       placeholder: true  },
+  { image: '',                                     title: 'Detailing Transformation',    category: 'Washing Bay',           description: 'Before & after detailing results',               placeholder: true  },
 ]
 const categories = ['All', 'Washing Bay', 'Balancing & Alignment', 'Vulcanizing', 'AC Services', 'Auto Diagnosis']
 
@@ -51,9 +51,9 @@ export default function GallerySection() {
                   <div className="absolute inset-0 opacity-10"
                     style={{ backgroundImage: 'radial-gradient(circle, #F4B400 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
                   <div className="relative z-10 w-14 h-14 rounded-full bg-seaa-yellow/20 border-2 border-seaa-yellow/40 flex items-center justify-center">
-                    {item.category === 'AC Services'
-                      ? <Snowflake size={28} className="text-seaa-yellow" />
-                      : <Activity  size={28} className="text-seaa-yellow" />}
+                    {item.category === 'AC Services'    ? <Snowflake size={28} className="text-seaa-yellow" />
+                   : item.category === 'Auto Diagnosis' ? <Activity  size={28} className="text-seaa-yellow" />
+                   :                                      <ImageIcon  size={28} className="text-seaa-yellow" />}
                   </div>
                   <span className="relative z-10 text-white/50 text-xs font-medium">Photo coming soon</span>
                 </div>
@@ -93,9 +93,9 @@ export default function GallerySection() {
                   <div className="absolute inset-0 opacity-10"
                     style={{ backgroundImage: 'radial-gradient(circle, #F4B400 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
                   <div className="relative z-10 w-20 h-20 rounded-full bg-seaa-yellow/20 border-2 border-seaa-yellow/40 flex items-center justify-center">
-                    {current.category === 'AC Services'
-                      ? <Snowflake size={40} className="text-seaa-yellow" />
-                      : <Activity  size={40} className="text-seaa-yellow" />}
+                    {current.category === 'AC Services'    ? <Snowflake size={40} className="text-seaa-yellow" />
+                   : current.category === 'Auto Diagnosis' ? <Activity  size={40} className="text-seaa-yellow" />
+                   :                                         <ImageIcon  size={40} className="text-seaa-yellow" />}
                   </div>
                   <span className="relative z-10 text-white/50 text-sm font-medium">Photo coming soon</span>
                 </div>
