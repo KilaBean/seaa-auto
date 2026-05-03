@@ -1,5 +1,4 @@
 // src/components/sections/AboutSection.tsx
-import Image from 'next/image'
 import { Shield, Zap, Award } from 'lucide-react'
 import type { ElementType } from 'react'
 
@@ -50,8 +49,23 @@ export default function AboutSection() {
 
           {/* Right */}
           <div className="reveal">
-            <div className="relative rounded-2xl overflow-hidden aspect-video mb-5 shadow-xl">
-              <Image src="/images/team.jpg" alt="SEAA Auto Services Team" fill className="object-cover" />
+            <div className="relative rounded-2xl overflow-hidden aspect-video mb-5 shadow-xl bg-gradient-to-br from-seaa-blue to-seaa-blue-light flex items-center justify-center">
+              {/* Decorative pattern */}
+              <div className="absolute inset-0 opacity-10"
+                style={{ backgroundImage: 'radial-gradient(circle, #F4B400 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+              {/* Placeholder icon group */}
+              <div className="relative z-10 flex flex-col items-center gap-3">
+                <div className="flex items-end gap-2">
+                  {[10, 14, 12, 16, 11, 13, 15].map((h, i) => (
+                    <div key={i} className="flex flex-col items-center gap-1">
+                      <div className="rounded-full bg-seaa-yellow/30 border-2 border-seaa-yellow/60"
+                        style={{ width: `${h * 2.2}px`, height: `${h * 2.2}px` }} />
+                      <div className="rounded-sm bg-white/20" style={{ width: `${h * 2.5}px`, height: `${h * 1.5}px` }} />
+                    </div>
+                  ))}
+                </div>
+                <span className="text-seaa-yellow/80 text-xs font-medium tracking-wide">Team photo coming soon</span>
+              </div>
               <div className="absolute inset-0 bg-gradient-to-t from-seaa-blue/80 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                 <p className="text-white font-semibold text-lg">Our Expert Team</p>
