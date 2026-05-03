@@ -51,8 +51,7 @@ const structuredData = {
   address: { "@type": "PostalAddress", addressCountry: "GH", addressLocality: "Ghana" },
   geo: { "@type": "GeoCoordinates", latitude: "4.967075", longitude: "-4.080509" },
   openingHoursSpecification: [
-    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "08:00", closes: "18:00" },
-    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Saturday"], opens: "09:00", closes: "16:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "06:00", closes: "18:00" },
   ],
   priceRange: "GHS 20 - GHS 500", currenciesAccepted: "GHS", paymentAccepted: "Cash, Mobile Money",
 }

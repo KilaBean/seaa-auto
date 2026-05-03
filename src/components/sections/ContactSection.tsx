@@ -22,7 +22,7 @@ const infoCards = [
   { icon: MapPin, title: 'Location', text: 'SEAA Auto Service Center\nGhana', color: '' },
   { icon: Phone,  title: 'Phone',    text: '+233 24 602 0823',                 color: 'text-seaa-yellow' },
   { icon: Mail,   title: 'Email',    text: 'Jeffkofi0@gmail.com',              color: '' },
-  { icon: Clock,  title: 'Hours',    text: 'Mon-Fri: 8AM-6PM\nSat: 9AM-4PM',  color: '' },
+  { icon: Clock,  title: 'Hours',    text: 'Mon-Sun: 6AM-6PM',  color: '' },
 ]
 
 export default function ContactSection() {

@@ -52,7 +52,7 @@ export default function Footer() {
                 { icon: MapPin, content: 'SEAA Auto Service Center, Ghana' },
                 { icon: Phone,  content: <a href="tel:+233246020823" className="text-seaa-yellow hover:underline">+233 24 602 0823</a> },
                 { icon: Mail,   content: <a href="mailto:Jeffkofi0@gmail.com" className="hover:text-seaa-yellow transition-colors">Jeffkofi0@gmail.com</a> },
-                { icon: Clock,  content: 'Mon-Fri: 8AM-6PM · Sat: 9AM-4PM' },
+                { icon: Clock,  content: 'Mon-Sun: 6AM-6PM' },
               ].map(({ icon: Icon, content }, i) => (
                 <li key={i} className="flex items-start gap-2 text-white/65 text-sm">
                   <Icon size={14} className="text-seaa-red mt-0.5 shrink-0" />
